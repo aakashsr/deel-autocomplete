@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { GithubUser } from "../types";
 import { API_URL, ERROR_MESSAGE } from "../utils/constants";
 import { useDebounce } from "./useDebounce";
+import { GithubUser } from "../types";
+
 
 export default function useAutoCompleteData(query: string, delay: number) {
   const [data, setData] = useState<GithubUser[]>([]);
