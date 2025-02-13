@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "target": "es5", // or a later version of ECMAScript
+      "module": "esnext", // Important for modern module systems
+      "jsx": "react-jsx", // or "react" if using older React versions
+      "moduleResolution": "node", // Key setting for module resolution
+      "esModuleInterop": true, // Important for compatibility
+      "strict": true, // Enable strict type checking (recommended)
+      "baseUrl": "./src", // Important to tell typescript that all modules are relative to the src folder
+      "paths": {
+         "*": ["*"]
+      },
+      // ... other options
+    },
+    "include": ["src"] // Important: Tell TypeScript to include your source files
+  }
+  

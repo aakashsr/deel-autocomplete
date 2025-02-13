@@ -65,7 +65,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     [data, highlightIndex]
   );
 
-  const handleChange = useCallback((e) => {
+  const handleChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
     let query = e.target.value;
     setQuery(query);
     setShowDropdown(e.target.value.trim() !== "");
