@@ -44,10 +44,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
               ? 0
               : prev + 1
             : e.key === "ArrowUp"
-            ? prev <= 0
-              ? maxIndex
-              : prev - 1
-            : prev
+              ? prev <= 0
+                ? maxIndex
+                : prev - 1
+              : prev
         );
       } else if (e.key === "Enter") {
         if (highlightIndex >= 0) {
@@ -65,7 +65,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     [data, highlightIndex]
   );
 
-  const handleChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     let query = e.target.value;
     setQuery(query);
     setShowDropdown(e.target.value.trim() !== "");
@@ -92,7 +92,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
           value={query}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          // onBlur={() => setShowDropdown(false)}
+          onBlur={() => setShowDropdown(false)}
           onFocus={() => setShowDropdown(true)}
           aria-autocomplete="list"
           aria-controls="autocomplete-list"
@@ -113,8 +113,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
             isLoading
               ? [{ id: 0, login: LOADING_MESSAGE, html_url: "" }]
               : ((Array.isArray(data)
-                  ? data.slice(0, limit)
-                  : []) as GithubUser[])
+                ? data.slice(0, limit)
+                : []) as GithubUser[])
           }
           highlightIndex={isLoading ? -1 : highlightIndex}
           handleSelect={(value) => {

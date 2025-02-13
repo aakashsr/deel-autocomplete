@@ -3,7 +3,6 @@ import { screen } from '@testing-library/dom';
 import Autocomplete from './Autocomplete';
 import userEvent from "@testing-library/user-event";
 
-// Mock API to prevent real API calls
 jest.mock("../hooks/useAutocompleteData", () => ({
   __esModule: true,
   default: (query: string) => ({
@@ -53,9 +52,9 @@ describe("Autocomplete Component", () => {
     );
 
     const input = screen.getByPlaceholderText("Search GitHub users...");
-    await userEvent.clear(input); // ✅ Ensures input is empty
+    await userEvent.clear(input); // Ensures input is empty
 
     const suggestionList = screen.queryByRole("listbox"); // Check if dropdown is present
-    expect(suggestionList).not.toBeInTheDocument(); // ✅ Should NOT exist
+    expect(suggestionList).not.toBeInTheDocument(); // Should NOT exist
   });
 });
