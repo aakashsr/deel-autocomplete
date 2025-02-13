@@ -3,10 +3,12 @@ import { screen } from '@testing-library/dom';
 import Autocomplete from './Autocomplete';
 import userEvent from "@testing-library/user-event";
 
-jest.mock("../hooks/useAutocompleteData", () => ({
+jest.mock("./hooks/useAutocompleteData", () => ({
   __esModule: true,
   default: (query: string) => ({
-    data: query ? ["abhishek", "github-user", "john-doe"] : [],
+    data: query ? [{ id: 1, login: "abhishek", html_url: "https://github.com/abhishek" },
+    { id: 2, login: "github-user", html_url: "https://github.com/github-user" },
+    { id: 3, login: "john-doe", html_url: "https://github.com/john-doe" }] : [],
     isLoading: false,
     isError: null,
   }),
