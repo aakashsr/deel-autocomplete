@@ -1,34 +1,43 @@
 ## 1. What is the difference between Component and PureComponent? Give an example where it might break my app.
 
-- `React.Component`:  Think of Component as the basic building block for creating React components. By default, it doesn’t have any special logic to decide whether it should re-render or not. So, every time its parent component re-renders or when its own state changes (via setState), it will re-render. This can sometimes lead to unnecessary re-renders, especially if the props or state haven’t actually changed.
+- `React.Component`:  Think of Component as the basic building block for creating React components. By default, it doesn’t have any special logic to decide whether it should re-render or not. So, every time its parent component re-renders or when its own state (via setState) or props changes, it will re-render. This can sometimes lead to unnecessary re-renders, especially if the props or state haven’t actually changed.
 
-- `PureComponent`: Now, PureComponent comes with a built-in optimization. It automatically implements a method called shouldComponentUpdate(), which performs a shallow comparison of the component’s props and state. If it notices that neither the props nor the state have changed, it doesn't re-render! This can help boost performance by avoiding unnecessary updates.
+- `PureComponent`: PureComponent comes with a built-in optimization. It automatically implements a method called shouldComponentUpdate(), which performs a shallow comparison of the component’s props and state. If it notices that neither the props nor the state have changed, it doesn't re-render. This can help boost performance by avoiding unnecessary updates.
 
 Example of Breaking: If a prop is an object or array that is directly mutated without creating a new reference, PureComponent won’t detect the change and won’t re-render, potentially leaving the UI out of sync.
+
+```javascript
+// Assume `this.state` is: { nested: { count: 10 } }
+// This would NOT trigger a re-render in PureComponent
+const updatedNested = this.state.nested;
+updatedNested.count = 20;
+this.setState({ nested: updatedNested });
+```
+Here, the nested reference remains the same, so PureComponent won’t re-render.
 
 
 ## 2. Context + ShouldComponentUpdate might be dangerous. Why is that?
 
-- When you use `Context`, any component that’s subscribed to it will re-render whenever the Context value changes. shouldComponentUpdate only looks at the component’s props and state to decide if it should re-render. But the thing is, context isn’t passed in through props or state. It’s handled behind the scenes by React.
+- When you use `Context`, any component that’s subscribed to it will re-render whenever the Context value changes. `shouldComponentUpdate` only looks at the component’s `props` and `state` to decide if it should re-render. But the thing is, context isn’t passed in through props or state. It’s handled behind the scenes by React.
 So if the context changes but your props and state stay the same, `shouldComponentUpdate` might stop the component from updating. This can cause your UI to show old or incorrect data because it never sees the context changes. That’s why mixing shouldComponentUpdate with context can be dangerous—it can break your component’s ability to keep up with the latest context values.
 
 
 ## 3. Describe 3 ways to pass information from a component to its PARENT.
 
-- Callback Functions
+- `Callback Functions:`
 This is most common way. The parent component passes a function as a prop to the child, and the child calls this function whenever it wants to send data back.
 
-- Lifting state up
+- `Lifting state up:`
 In this pattern, state is managed in the parent component, and the child component receives it as props. The child can then update the state by calling a function passed down from the parent.
 
 
-- Using Context/ State Management Libraries
+- `Using Context/ State Management Libraries:`
 If you have a deeply nested component or more complex data flow and don’t want to pass props through multiple levels, you can use React Context or external libraries like Redux or Zustand. The child component can update the Context or dispatch an action, and parent will reflect the updated state automatically
 
 
 ## 4. Give 2 ways to prevent components from re-rendering.
 
-- Using `React.memo()` or `React.PureComponent`
+- Using `React.memo()`(Functional components) or `React.PureComponent`(Class components)
 - `useMemo` / `useCallback`
 
 ## 5. What is a fragment and why do we need it? Give an example where it might break my app.
@@ -195,7 +204,7 @@ function MyComponent() {
 }
 ```
 
-11. How to render an HTML string coming from the server.
+## 11. How to render an HTML string coming from the server.
 
 We can do it via `dangerouslySetInnerHTML` attribute. However, it comes with security risk if the HTML is not properly sanitized. To mitigate risk, one can use a sanitization library like `DOMPurify` before rendering.
 If security is not much concern, one can use libraries like `html-to-react` or `html-react-parser` to convert HTML string int oReact elements.
