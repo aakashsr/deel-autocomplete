@@ -18,12 +18,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const handleSelect = useCallback((selectedUser: GithubUser) => {
     setQuery(selectedUser.login);
+    // close dropdown after selection
     setShowDropdown(false);
-    inputRef.current?.blur();
-
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    setHighlightIndex(-1); // reset highlight
+    inputRef.current?.blur(); // remove focus
     window.open(selectedUser.html_url, "_blank");
   }, []);
 
@@ -53,6 +51,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         if (highlightIndex >= 0) {
           // If a suggestion is highlighted, open its GitHub profile
           handleSelect(data[highlightIndex]);
+          setShowDropdown(false); // close dropdown after selecting suggestion using enter
         } else if (query.trim() !== "") {
           // If no suggestion is highlighted, open GitHub for the typed query
           window.open(`https://github.com/${query}`, "_blank");
