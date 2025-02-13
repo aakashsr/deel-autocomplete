@@ -1,9 +1,9 @@
 import React, { useState, useRef, useCallback } from "react";
 import useAutoCompleteData from "./hooks/useAutocompleteData";
-import SuggestionList from "./SuggestionList";
 import { AutocompleteProps, GithubUser } from "./types";
 import { LOADING_MESSAGE, NO_RESULTS_MESSAGE } from "./utils/constants";
 import highlightMatch from "./utils/highlightMatch";
+import SuggestionList from "./SuggestionList";
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
   placeholder,
@@ -38,7 +38,6 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       const maxIndex = visibleSuggestions.length - 1;
 
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-        // e.preventDefault(); // ✅ Prevent default scrolling behavior
         setHighlightIndex((prev) =>
           e.key === "ArrowDown"
             ? prev >= maxIndex
@@ -51,12 +50,11 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
             : prev
         );
       } else if (e.key === "Enter") {
-        // e.preventDefault();
         if (highlightIndex >= 0) {
-          // ✅ If a suggestion is highlighted, open its GitHub profile
+          // If a suggestion is highlighted, open its GitHub profile
           handleSelect(data[highlightIndex]);
         } else if (query.trim() !== "") {
-          // ✅ If no suggestion is highlighted, open GitHub for the typed query
+          // If no suggestion is highlighted, open GitHub for the typed query
           window.open(`https://github.com/${query}`, "_blank");
         }
       } else if (e.key === "Tab") {
@@ -74,7 +72,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   }, []);
 
   const handleHover = useCallback((index: number) => {
-    setHighlightIndex((prev) => (prev !== index ? index : prev)); // ✅ Updates only if changed
+    setHighlightIndex((prev) => (prev !== index ? index : prev));
   }, []);
 
   const handleClear = () => {
